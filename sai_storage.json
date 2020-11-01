@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Storage Name": {
+            "type": "string",
+            "metadata": {
+                "description": "storage name"
+            },
+            "minLength":3,
+            "maxLength":24
+        },
+        "StorageSKU": {
+            "type": "string",
+            "metadata": {
+                "description": "it is a what type of storage"
+            },
+            "allowedValues": ["Standard_LRS", 
+            "Standard_GRS",
+             "Standard_RAGRS",
+              "Standard_ZRS",
+               "Premium_LRS",
+                "Premium_ZRS",
+                 "Standard_GZRS",
+                  "Standard_RAGZRS"]
+        },
+        "tier": {
+            "type": "string",
+            "metadata": {
+                "description": "tier"
+            },
+            "allowedValues": ["Standard", "Premium"]
+
+        },
+        "storageKind": {
+            "type": "string",
+            "metadata": {
+                "description": "storagekind"
+            },
+            "allowedValues": [ "Storage","StorageV2","BlobStorage","FileStorage","BlockBlobStorage"]
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+    
+        {
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('Storage Name')]",
+            "location":"[resourceGroup().location]",
+            "sku": {
+                "name": "[parameters('StorageSKU')]",
+                "tier": "[parameters('tier')]"
+            },
+            "kind": "[parameters('storageKind')]"
+
+        }
+    ],
+    "outputs": {}
+}
