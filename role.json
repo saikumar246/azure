@@ -1,0 +1,16 @@
+{ "properties": { 
+    "roleName": "Sairole", "description": "",
+     "assignableScopes": [ "/subscriptions/a248d509-bdc8-4664-a863-f6f761a07821/resourceGroups/dhsk" ], 
+     "permissions": [ { 
+         "actions": [ "microsoft.operationalinsights/locations/operationStatuses/read", 
+            "Microsoft.OperationalInsights/linkTargets/read", 
+            "Microsoft.OperationalInsights/deletedWorkspaces/read", 
+            "Microsoft.OperationalInsights/clusters/write", 
+            "Microsoft.OperationalInsights/clusters/delete", 
+            "Microsoft.OperationalInsights/clusters/read",
+             "microsoft.operationalinsights/availableservicetiers/read", 
+             "Microsoft.OperationalInsights/register/action" ], 
+             "notActions": [],
+              "dataActions": [],
+               "notDataActions": [] 
+               } ] }}
