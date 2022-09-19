@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+"VmName": {
+  "type": "string",
+  "maxLength": 15,
+  "defaultValue": "vm name1",
+  "metadata": {
+"descrition":"The VM name in lower case, maximum 15-character size"
+  }
+},
+
+"VmLocation": {
+  "type": "string",
+  "metadata": {
+    "description": "description",
+    "SNC::Parameter::Metadata": {
+            "referenceType": "Microsoft.Azure/region"
+          }
+  }
+},
+
+"deployagent": {
+        "type": "string",
+        "allowedValues": [
+          "PowerShell7"
+        ],
+        "metadata": {
+          "description": "install Powershell7"
+        }
+      }
+
+  },
+  "functions": [],
+  "variables": {"agentdeployuri": "https://sadhsktest.blob.core.windows.net/agentinstall/powershelldeploy.ps1"},
+  "resources": [
+    {
+        "apiVersion": "2018-10-01",
+        "type": "Microsoft.Compute/virtualMachines",
+		
+        "name": "[parameters('vmName')]",
+        "location": "[parameters('VmLocation')]"
+  
+    },
+
+ {
+  "name": "[concat(parameters('VmName'),'/',parameters('deployagent'))]",
+  "type": "Microsoft.Compute/virtualMachines/extensions",
+  "apiVersion": "2018-10-01",
+  "location": "[resourceGroup().location]",
+  "tags": {
+    "displayName": "customScript1 for Windows VM"
+  },
+  "dependsOn": [
+    "[resourceId('Microsoft.Compute/virtualMachines', parameters('VmName'))]"
+  ],
+  "properties": {
+    "publisher": "Microsoft.Compute",
+    "type": "CustomScriptExtension",
+    "typeHandlerVersion": "1.7",
+    "autoUpgradeMinorVersion": true,
+    "settings": {
+      "fileUris":  "[split(variables('agentdeployuri'),' ')]"
+      
+    },
+    "protectedSettings": {
+      "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file powershelldeploy.ps1',' -agentdeploy ',parameters('deployagent'))]",
+      "storageAccountName": "sadhsktest",
+    "storageAccountKey": "zbPabGEpe/w/jNSL8LJbxJHAY4CSGcOfi8bz41kdPfkRcjjW08gy3RvH71BxP3jGgEUSMiYn4Itx+ASt+d5Cmw=="
+    }
+  }
+ }    
+  ],
+  "outputs": {}
+}
