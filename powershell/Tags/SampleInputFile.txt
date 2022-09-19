@@ -1,0 +1,4 @@
+@{Location="myLocation";Env="prod";Application="SaiWebsite";Owner="Sai Kumar <Sai@gmail.com>";Support="CloudOps pod1";maintenance="23:00";RoomMate="Pavan Bros"}
+AzureSite-VM
+MyDockerVM
+Onrem-VM
