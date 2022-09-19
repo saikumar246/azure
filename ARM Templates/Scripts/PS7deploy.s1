@@ -1,0 +1,41 @@
+[CmdletBinding(SupportsShouldProcess=$true)]
+Param
+(
+
+[Parameter(Mandatory=$true)]
+[ValidateSet("PowerShell7")]
+$agentdeploy = "PowerShell7"
+)
+
+#--------------------------------------------------varaibles-----------------------------------------------------------------------------------
+
+$PS7_url='https://sadhsktest.blob.core.windows.net/agentinstall/PowerShell-7.2.6-win-x64.msi'
+
+#--------------------------------------------------Function-----------------------------------------------------------------------------------------
+
+function install-powershell{
+$PS7Location = "C:\Windows\Sai\powershell"
+               $PS7_msi_path = "C:\Windows\Sai\powershell\PS7.msi"
+			   
+               Write-Host "Downloading PowerShell-7 File"
+               New-Item -Path $PS7Location -Type Directory -Force |out-null
+               (New-Object System.Net.WebClient).DownloadFile($PS7_url, $PS7_msi_path)
+               Write-Host "Installing PowerShell7"
+               msiexec.exe /i $PS7_msi_path /quiet
+
+}
+
+#--------------------------------------------------------------------------------------------------------------------------
+try {
+
+if($agentdeploy -ne $null){
+
+install-powershell
+		
+}
+}
+catch {
+
+Write-Host $_
+
+}
