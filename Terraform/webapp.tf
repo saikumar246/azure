@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "RG" {
   
 }
 resource "azurerm_service_plan" "app1" {
-    name = "App1-ASP"
+    name = "App2-ASP"
     location = azurerm_resource_group.RG.location
     resource_group_name = azurerm_resource_group.RG.name
     sku_name= "B1"
@@ -37,7 +37,7 @@ resource "azurerm_windows_web_app" "appservice" {
     service_plan_id = azurerm_service_plan.app1.id
     location = azurerm_resource_group.RG.location
     resource_group_name = azurerm_resource_group.RG.name
-    name = "WebApp01-dhsk-dev"
+    name = "WebApp02-dhsk-dev"
     site_config {}
 }
 
@@ -45,7 +45,7 @@ resource "azurerm_windows_web_app" "appservice1" {
     service_plan_id = azurerm_service_plan.app1.id
     location = azurerm_resource_group.RG.location
     resource_group_name = azurerm_resource_group.RG.name
-    name = "WebApp01-dhsk-UAT"
+    name = "WebApp02-dhsk-UAT"
     site_config {}
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_windows_web_app" "appservice2" {
     service_plan_id = azurerm_service_plan.app1.id
     location = azurerm_resource_group.RG.location
     resource_group_name = azurerm_resource_group.RG.name
-    name = "WebApp01-dhsk-prod"
+    name = "WebApp02-dhsk-prod"
     site_config {}
 }
 
