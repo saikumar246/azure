@@ -11,7 +11,7 @@ terraform {
   backend "azurerm" {
     storage_account_name = "__terraformstorageaccount__"
     container_name       = "terraform1"
-    key                  = "terraform1.tfstate"
+    key                  = "terraform.tfstate"
     access_key = "__storagekey__"
   }
 }
