@@ -16,7 +16,7 @@ $workSheet = $Workbook.Sheets.Item(1)
 $rowcount=$WorkSheet.UsedRange.Rows.Count
 #$rowcount
 $j=0
-
+$ErrorRules=@()
 Write-Host ("### Adding rules to the {0} ...... ###" -f ,$nsgname) -ForegroundColor Green
 For($i=2;$i -lt $rowcount+1;$i=$i+1){
 #Reading data from the excel
@@ -89,10 +89,22 @@ Add-AzNetworkSecurityRuleConfig -Name $rulename -Description $Description -Acces
     -SourcePortRange $SourcePortRange -DestinationAddressPrefix $DestinationAddressPrefix_array -DestinationPortRange $DestinationPortRange_array |
     Set-AzNetworkSecurityGroup | Out-Null
 }
-if ($?) { $j=$j+1}
+if ($?) { $j=$j+1} 
+else {
+$ErrorRules+=$rulename
+}
 }
 
 Write-Host ("### {0} rules added to the {1} Successfully ###" -f $j, $nsgname) -ForegroundColor Green
+Write-Host ("### {0} rules got the errors ###" -f $ErrorRules.length) -ForegroundColor Red
+
+if ($ErrorRules.length -ge 0){
+
+Write-Host("---------------------------------------------------------------------------------------------------------") -ForegroundColor DarkGray
+Write-Host ("### The following Rules got the Errors while adding to {0} ###" -f $nsgname) -ForegroundColor Magenta
+$ErrorRules
+Write-Host("---------------------------------------------------------------------------------------------------------") -ForegroundColor DarkGray
+}
 
 
 
